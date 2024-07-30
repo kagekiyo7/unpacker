@@ -22,12 +22,9 @@ jobs:
 
       - name: Install OpenSSL and zlib with MSYS2
         run: |
-          pacman -Syu --noconfirm
-          pacman -S --noconfirm mingw-w64-x86_64-openssl mingw-w64-x86_64-zlib
-  
-      - name: Install Unix++ (if available via MSYS2)
-        run: |
-          pacman -S --noconfirm mingw-w64-x86_64-libunix++
+          msys2 -c 'pacman -Syu --noconfirm'
+          msys2 -c 'pacman -S --noconfirm mingw-w64-x86_64-openssl mingw-w64-x86_64-zlib'
+          msys2 -c 'pacman -S --noconfirm mingw-w64-x86_64-libunix++'
 
       - run: |
           make
