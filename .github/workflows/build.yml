@@ -11,6 +11,8 @@ jobs:
 
       - name: install msys2
         uses: msys2/setup-msys2@v2
+        with:
+          packages: 'mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake'
 
       - name: Install OpenSSL and zlib with MSYS2
         run: |
