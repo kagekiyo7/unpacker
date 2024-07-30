@@ -7,10 +7,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
   
       - run: |
           make
+          dir
+          cd unpacker
   
       - name: Upload binary
         uses: actions/upload-artifact@v3
