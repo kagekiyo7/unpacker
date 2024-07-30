@@ -14,6 +14,12 @@ jobs:
         with:
           packages: 'mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake'
 
+      - name: Add staging repo
+        shell: msys2 {0}
+        run: |
+          cp /etc/pacman.conf /etc/pacman.conf.bak
+          grep -qFx '[staging]' /etc/pacman.conf || sed -i '/^# \[staging\]/,/^$/ s|^# ||g' /etc/pacman.conf
+
       - name: Install OpenSSL and zlib with MSYS2
         run: |
           pacman -Syu --noconfirm
