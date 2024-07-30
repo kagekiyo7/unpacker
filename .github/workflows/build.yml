@@ -6,27 +6,29 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up MinGW
-        uses: egor-tensin/setup-mingw@v1
-        with:
-          mingw-version: '8.1.0'
-          architecture: x64
-
-      - name: Add MinGW to PATH
-        run: echo "C:\\mingw64\\bin" >> $env:GITHUB_PATH
-
-      - name: Install Libraries
-        run: |
-          pacman -Sy --noconfirm mingw-w64-x86_64-gcc mingw-w64-x86_64-libstdc++ mingw-w64-x86_64-openssl mingw-w64-x86_64-zlib
-
-      - name: Build the executable
-        run: mingw32-make
-
-      - name: Upload the executable
-        uses: actions/upload-artifact@v3
-        with:
-          name: unpacker
-          path: unpacker.exe
+     - name: Checkout repository
+       uses: actions/checkout@v2
+  
+     - name: Install MSYS2
+       uses: msys2/setup-msys2@v2
+       with:
+         msystem: MINGW64
+         update: true
+         install: >-
+           mingw-w64-x86_64-gcc
+           mingw-w64-x86_64-cmake
+           mingw-w64-x86_64-make
+           mingw-w64-x86_64-openssl
+           mingw-w64-x86_64-zlib
+  
+     - name: Add MSYS2 to PATH
+       run: echo "::add-path::C:\msys64\mingw64\bin"
+  
+     - name: Build with Makefile
+       run: mingw32-make
+  
+     - name: Upload binary
+       uses: actions/upload-artifact@v3
+       with:
+         name: unpacker.exe
+         path: unpacker.exe
